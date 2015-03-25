@@ -9,61 +9,61 @@ class Node(object):
         Instantiates a node with parent graph G
         """
         # The parent graph of this node
-        self.__graph = G
+        self._graph = G
 
         # Names of nodes pointing to this one
-        self.__inward = set()
+        self._inward = set()
 
         # Names of nodes to which this one points
-        self.__outward = set()
+        self._outward = set()
 
     def parent_graph(self):
         """
         :return: The graph associated with this node
         """
-        return self.__graph
+        return self._graph
 
     def inward_edges(self):
         """
         :return: An iterator over the set of names of nodes pointing to this node
         """
-        return iter(self.__inward)
+        return iter(self._inward)
 
     def outward_edges(self):
         """
         :return: An iterator over the set of names of nodes to which this node points
         """
-        return iter(self.__outward)
+        return iter(self._outward)
 
     def num_inward_edges(self):
         """
         :return: The number of edges pointing into this node
         """
-        return len(self.__inward)
+        return len(self._inward)
 
     def num_outward_edges(self):
         """
         :return: The number of edges pointing out of this node
         """
-        return len(self.__outward)
+        return len(self._outward)
 
     def has_edge_to(self, other):
         """
         :return: Whether there is an edge from this node to "other"
         """
-        return other in self.__outward
+        return other in self._outward
 
     def has_edge_from(self, other):
         """
         :return: Whether there is an edge to this node from "other"
         """
-        return other in self.__inward
+        return other in self._inward
 
 
 class DiGraph(object):
     def __init__(self):
         """
-        Instantiates a directed graph
+        Instantiates a directed graph with no self-loops
         """
 
         # The set of nodes in the graph
@@ -80,14 +80,18 @@ class DiGraph(object):
         """
         Adds a directed edge from a to b.
         :raise: KeyError if a or b is not in the graph.
+        :raise: AttributeError if a == b
         """
         if a not in self.__nodes:
             raise KeyError("Graph has no node named {}".format(a))
         if b not in self.__nodes:
             raise KeyError("Graph has no node named {}".format(b))
-
-        self.__nodes[a].__outward.add(b)
-        self.__nodes[b].__inward.add(a)
+        if a == b:
+            raise AttributeError("DiGraph does not support self-loops")
+        node_a = self.__nodes[a]
+        node_b = self.__nodes[b]
+        node_a._outward.add(b)
+        node_b._inward.add(a)
 
     def remove_edge(self, a, b):
         """
@@ -99,10 +103,10 @@ class DiGraph(object):
         if b not in self.__nodes:
             raise KeyError("Graph has no node named {}".format(b))
 
-        if b in self.nodes[a].__outward:
-            self.__nodes[a].__outward.remove(b)
-        if a in self.nodes[b].__inward:
-            self.__nodes[b].__inward.remove(a)
+        if b in self.__nodes[a]._outward:
+            self.__nodes[a]._outward.remove(b)
+        if a in self.__nodes[b]._inward:
+            self.__nodes[b]._inward.remove(a)
 
     def remove_node(self, name):
         """

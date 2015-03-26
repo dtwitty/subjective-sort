@@ -46,7 +46,8 @@ class TestDiGraph(TestCase):
 
         for a in range(1, 4):
             for b in range(1, 4):
-                self.assertTrue(G.contains_edge(a, b))
+                if a != b:
+                    self.assertTrue(G.contains_edge(a, b))
 
         G.remove_edge(1, 3)
         self.assertTrue(G.contains_edge(3, 1))
@@ -58,7 +59,7 @@ class TestDiGraph(TestCase):
 
         for a in range(1, 4):
             for b in range(1, 4):
-                if (a, b) != (1, 3) and (a, b) != (3, 1):
+                if (a, b) != (1, 3) and (a, b) != (3, 1) and a != b:
                     self.assertTrue(G.contains_edge(a, b))
 
     def test_remove_node(self):

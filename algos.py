@@ -23,10 +23,9 @@ def topological_sort(G: DiGraph):
     G = deepcopy(G)
     n = len(G)
     L = []
-    S = set()
+    S = set(n for n in G if G[n].in_degree() == 0)
 
     while len(S) > 0:
-
         n = S.pop()
         L.append(n)
 
@@ -82,14 +81,15 @@ def feedback_arc_set(G: DiGraph):
             G.remove_node(source)
             has_source, source = find_source(G)
 
-        u = max(G, key=lambda n: G[n].out_degree() - G[n].in_degree())
-        s1.append(u)
-        G.remove_node(u)
+        if len(G) > 0:
+            u = max(G, key=lambda n: G[n].out_degree() - G[n].in_degree())
+            s1.append(u)
+            G.remove_node(u)
 
     ret = []
     for j, n in enumerate(s1 + list(reversed(s2))):
-        for i in range(i):
-            ret.add(i, j)
+        for i in range(j):
+            ret.append((i, j))
 
     return ret
 
@@ -99,6 +99,7 @@ def remove_cycles(G: DiGraph):
     Modifies G
     """
     to_remove = feedback_arc_set(G)
+    print("removing edges:", to_remove)
     for (a, b) in to_remove:
         G.remove_edge(a, b)
 

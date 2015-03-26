@@ -8,6 +8,7 @@ from algos import topological_sort, remove_cycles, CycleDetectedException
 from digraph import DiGraph
 
 
+
 # An example DAG, as found at
 # http://en.wikipedia.org/wiki/Topological_sorting
 DAG_ADJ = {
@@ -75,7 +76,7 @@ class TestAlgos(TestCase):
 
     def test_remove_cycles(self):
         G = generate_digraph(DAG_ADJ)
-        # add an edges to create cycles
+        # add multiple edges to create cycles
         G.add_edge(10, 7)
         G.add_edge(2, 3)
         G.add_edge(2, 5)

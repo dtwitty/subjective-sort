@@ -35,13 +35,13 @@ class Node(object):
         """
         return iter(self._outward)
 
-    def num_inward_edges(self):
+    def in_degree(self):
         """
         :return: The number of edges pointing into this node
         """
         return len(self._inward)
 
-    def num_outward_edges(self):
+    def out_degree(self):
         """
         :return: The number of edges pointing out of this node
         """

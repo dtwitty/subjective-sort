@@ -41,7 +41,8 @@ class TestDiGraph(TestCase):
 
         for a in range(1, 4):
             for b in range(1, 4):
-                G.add_edge(a, b)
+                if a != b:
+                    G.add_edge(a, b)
 
         for a in range(1, 4):
             for b in range(1, 4):
@@ -67,13 +68,15 @@ class TestDiGraph(TestCase):
 
         for a in range(1, 4):
             for b in range(1, 4):
-                G.add_edge(a, b)
+                if a != b:
+                    G.add_edge(a, b)
 
         G.remove_node(3)
         self.assertFalse(3 in G)
         for a in range(1, 3):
             for b in range(1, 3):
-                self.assertTrue(G.contains_edge(a, b))
+                if a != b:
+                    self.assertTrue(G.contains_edge(a, b))
 
         for a in G:
             node = G[a]

@@ -21,10 +21,12 @@ def topological_sort(G: DiGraph):
     :raise: CycleDetectedException if G contains a cycle.
     """
     G = deepcopy(G)
+    n = len(G)
     L = []
     S = set()
 
-    while S:
+    while len(S) > 0:
+
         n = S.pop()
         L.append(n)
 
@@ -33,13 +35,8 @@ def topological_sort(G: DiGraph):
             if G[m].in_degree() == 0:
                 S.add(m)
 
-        assert (G[n].in_degree() == 0)
-        assert (G[n].out_degree() == 0)
-        G.remove_node(n)
-
-    if len(G) > 0:
+    if sum(G[n].in_degree() for n in G) > 0:
         raise CycleDetectedException()
-
     else:
         return L
 
@@ -89,9 +86,12 @@ def feedback_arc_set(G: DiGraph):
         s1.append(u)
         G.remove_node(u)
 
-    VS = s1 + list(reversed(s2))
-    return zip(VS, VS[1:])
+    ret = []
+    for j, n in enumerate(s1 + list(reversed(s2))):
+        for i in range(i):
+            ret.add(i, j)
 
+    return ret
 
 def remove_cycles(G: DiGraph):
     """

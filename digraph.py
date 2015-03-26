@@ -123,7 +123,7 @@ class DiGraph(object):
             self.remove_edge(name, i)
         del self.__nodes[name]
 
-    def __index__(self, name):
+    def __getitem__(self, name):
         """
         :return: The node with the given name
         :raise: KeyErros if there is no node with the given name in the graph

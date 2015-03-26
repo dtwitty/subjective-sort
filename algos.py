@@ -51,6 +51,7 @@ def feedback_arc_set(G: DiGraph):
 
     :return: A feedback arc set of G.
     """
+    old_G = G
     G = deepcopy(G)
 
     def find_source(G: DiGraph):
@@ -86,10 +87,14 @@ def feedback_arc_set(G: DiGraph):
             s1.append(u)
             G.remove_node(u)
 
+    vs = s1 + list(reversed(s2))
     ret = []
-    for j, n in enumerate(s1 + list(reversed(s2))):
+    for j in range(len(vs)):
         for i in range(j):
-            ret.append((i, j))
+            a = vs[j]
+            b = vs[i]
+            if old_G.contains_edge(a, b):
+                ret.append((vs[j], vs[i]))
 
     return ret
 
@@ -99,7 +104,6 @@ def remove_cycles(G: DiGraph):
     Modifies G
     """
     to_remove = feedback_arc_set(G)
-    print("removing edges:", to_remove)
     for (a, b) in to_remove:
         G.remove_edge(a, b)
 
